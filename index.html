@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="estilo.css">
+    <title>Previsão Clima</title>
+</head>
+
+<body>
+    <section>
+        <article id="previsaoMomento">
+            <div id="divMomento-principal">
+                <h1 id="cidade"><span id="name">Cidade</span> - <span id="state">UF</span></h1>
+                <div id="divMomento-princ-imagem">
+                    <img id="imgMomento" src="img\realistic\128px\1.png" alt="Imagem do Tempo">
+                    <div id="divMomento-princ-detalhes">
+                        <p id="temperatureMomento">00°</p>
+                        <p id="condition">Poucas nuvens</p>
+                    </div>
+                </div>
+            </div>
+            <div id="divMomento-detalhes">
+                <div id="divMomento-det-detalhes">
+                    <div id="divMomento-det-descricao">
+                        <p>Sensação:</p>
+                        <p>Min / Max:</p>
+                        <p>Chuva:</p>
+                    </div>
+                    <div id="divMomento-det-valor">
+                        <p id="sensation">0°C / 00°C</p>
+                        <p id="temperatureMinMax">0°C / 00°C</p>
+                        <p id="rainMomento">00% / 00mm</p>
+                    </div>
+                </div>
+                <p id="date">Atualizado às 00:00</p>
+            </div>
+            <div id="divMomentoDia">
+                <div id="divMomentoDiaImagens">
+                    <div>
+                        <p>Madrugada</p>
+                        <img id="imgMomentoMadrugada" src="img\realistic\45px\1.png" alt="Imagem Madrugada">
+                        <p id="phrase-dawn">Frase madrugada</p>
+                    </div>
+                    <div>
+                        <p>Manhã</p>
+                        <img id="imgMomentoManha" src="img\realistic\45px\1.png" alt="Imagem Manhã">
+                        <p id="phrase-morning">Frase manhã</p>
+                    </div>
+                    <div>
+                        <p>Tarde</p>
+                        <img id="imgMomentoTarde" src="img\realistic\45px\1.png" alt="Imagem Tarde">
+                        <p id="phrase-afternoon">Frase tarde</p>
+                    </div>
+                    <div>
+                        <p>Noite</p>
+                        <img id="imgMomentoNoite" src="img\realistic\45px\1.png" alt="Imagem Noite">
+                        <p id="phrase-night">Frase noite</p>
+                    </div>
+                </div>
+                <p id="phrase-reduced">Frase dia inteiro</p>
+            </div>
+        </article>
+        <article id="previsao5Dias">
+            <header>
+                Previsão 5 dias
+            </header>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Manhã</th>
+                        <th>Tarde</th>
+                        <th>Noite</th>
+                        <th>Chuva</th>
+                        <th>Temperatura</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaPrevisao5Dias">
+                    <tr>
+                        <td>
+                            <p>00/00</p>
+                        </td>
+                        <td>
+                            <img class="icon-day" src="img\realistic\45px\1.png" alt="Imagem">
+                            <p>Sol com nuvens</p>
+                        </td>
+                        <td>
+                            <img class="icon-day" src="img\realistic\45px\1.png" alt="Imagem">
+                            <p>Sol com nuvens</p>
+                        </td>
+                        <td>
+                            <img class="icon-day" src="img\realistic\45px\1.png" alt="Imagem">
+                            <p>Sol com nuvens</p>
+                        </td>
+                        <td>
+                            <p>00% / 00mm</p>
+                        </td>
+                        <td>
+                            <p>00° / 00°</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+    </section>
+</body>
+
+</html>
