@@ -21,7 +21,7 @@ function atualizarDados() {
     //
     let token = '724ad8c3f15b9d400ff996a62d058433';
     $.ajax({
-        url: 'http://apiadvisor.climatempo.com.br/api/v1/weather/locale/3477/current?token=' + token,
+        url: 'https://apiadvisor.climatempo.com.br/api/v1/weather/locale/3477/current?token=' + token,
         dataType: 'json',
         success: function (dados) {
             //console.log(dados)
@@ -58,7 +58,7 @@ function atualizarDados() {
     //WebService -> Forecast - Previsão 15 dias.
     //
     $.ajax({
-        url: 'http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=' + token,
+        url: 'https://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=' + token,
         dataType: 'json',
         success: function (dados) {
             //console.log(dados)
