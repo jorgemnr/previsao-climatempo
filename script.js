@@ -5,7 +5,7 @@ $(document).ready(inicializar);
 let caminhoImgPeq = 'img/realistic/45px/';
 let caminhoImgGde = 'img/realistic/128px/';
 let endpointWSMomento = 'https://apiadvisor.climatempo.com.br/api/v1/weather/locale/3477/current?';
-let endpointWS15Dias = 'http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?';
+let endpointWS15Dias = 'https://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?';
 let tokenWS = '&token=724ad8c3f15b9d400ff996a62d058433';
 
 function inicializar() {
