@@ -94,7 +94,7 @@ function fncPreencherPagina15Dias(dados) {
         // Dados do dia corrente
         if (dado == 'data') {
             //console.log(dado)
-            for (let i = 0; i < 7; i++) {
+            for (let i = 0; i < 6; i++) {
                 //dados dia atual
                 if (i == 0) {
                     //Limpar tabela Previsão 5 Dias

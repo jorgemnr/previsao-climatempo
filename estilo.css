@@ -23,7 +23,7 @@ section {
     flex-flow: row wrap;
     align-items: center;
     justify-content: space-evenly;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.4);
     color: white;
 }
 
@@ -136,7 +136,7 @@ section {
 
 #previsao5Dias {
     margin: 0.5rem 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.4);
     color: white;
     font-size: 1rem;
     padding: 0.5rem;
