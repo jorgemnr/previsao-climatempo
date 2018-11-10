@@ -206,6 +206,7 @@ section {
     right: 0;
     bottom: 0;
     left: 0;
+    border: transparent 1rem solid;
     background: rgba(0, 0, 0, 0.8);
     z-index: 99999;
     opacity: 0;
@@ -215,10 +216,6 @@ section {
     pointer-events: none;
 }
 
-/*#####################
- Modal Cidade/Estado - Funcionalidade e aparência
-#######################*/
-
 .modalDialog:target {
     opacity: 1;
     pointer-events: auto;
@@ -226,20 +223,7 @@ section {
 
 .modalDialog>div {
     text-align: center;
-    width: 20%;
-    position: relative;
-    margin: 10% auto;
-    padding: 5px 20px 13px 20px;
-    border-radius: 10px;
-    background: -moz-linear-gradient(#fff, #999);
-    background: -webkit-linear-gradient(#fff, #999);
-    background: -o-linear-gradient(#fff, #999);
-    background-image: linear-gradient(#fff, #999);
-}
-
-.modalDialog>div {
-    text-align: center;
-    width: 20%;
+    max-width: 20rem;
     position: relative;
     margin: 10% auto;
     padding: 5px 20px 13px 20px;
@@ -256,7 +240,6 @@ section {
 }
 
 .modalDialog>div>p {
-    /* margin: 1rem 0.5rem; */
     margin: 1.2rem 0 0.5rem 0;
     font-size: 1rem;
 }
