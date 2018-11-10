@@ -1,33 +1,26 @@
-//inicializar
-$(document).ready(inicializar);
-
 //variaveis Globais
 let caminhoImgPeq = 'img/realistic/45px/';
 let caminhoImgGde = 'img/realistic/128px/';
-let endpointWSMomento = 'https://apiadvisor.climatempo.com.br/api/v1/weather/locale/3477/current?';
-let endpointWS15Dias = 'https://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?';
+let endpointWSMomento = 'https://apiadvisor.climatempo.com.br/api/v1/weather/locale/#/current?';
+let endpointWS15Dias = 'https://apiadvisor.climatempo.com.br/api/v1/forecast/locale/#/days/15?';
 let tokenWS = '&token=724ad8c3f15b9d400ff996a62d058433';
 
-function inicializar() {
-    let previsaoMomento, previsao15Dias;
+//inicializar
+//3477 - São Paulo
+$(document).ready(inicializar(3477));
+
+function inicializar(localidade) {
     //obter geolocalização
     //geolocalizacao.obter();
-    //console.log(geolocalizacao.coordenadas)
-    //Chamar web services
-    //atualizar pagina html
-    //atualizarDados();
-
-    //chamaWsPrevisao(endpointWSMomento);
-    //chamaWsPrevisao(endpointWS15Dias);
-    WsPrevisaoMomento()
-    WsPrevisao15Dias()
+    WsPrevisaoMomento(localidade)
+    WsPrevisao15Dias(localidade)
 }
 //
 //WebService -> Forecast - Momento
 //
-function WsPrevisaoMomento() {
+function WsPrevisaoMomento(localidade) {
     $.ajax({
-        url: endpointWSMomento + tokenWS,
+        url: endpointWSMomento.replace('#', localidade) + tokenWS,
         dataType: 'json',
         success: function (dados) {
             fncPreencherPaginaMomento(dados);
@@ -41,9 +34,9 @@ function WsPrevisaoMomento() {
 //
 //WebService -> Forecast - Previsão 15 dias.
 //
-function WsPrevisao15Dias() {
+function WsPrevisao15Dias(localidade) {
     $.ajax({
-        url: endpointWS15Dias + tokenWS,
+        url: endpointWS15Dias.replace('#', localidade) + tokenWS,
         dataType: 'json',
         success: function (dados) {
             fncPreencherPagina15Dias(dados);
@@ -58,7 +51,7 @@ function WsPrevisao15Dias() {
 //Preencher os elementos HTML da página utilizando o JSON de retorno do WebService
 //
 function fncPreencherPaginaMomento(dados) {
-    console.log('dados ' + dados);
+    //console.log('dados ' + dados);
     //Previsão dia atual
     $.each(dados, function (dado, valor) {
         if (dado !== 'data') {
@@ -87,8 +80,7 @@ function fncPreencherPaginaMomento(dados) {
 //
 function fncPreencherPagina15Dias(dados) {
     let data, manha, tarde, noite, chuva, temperatura;
-
-    console.log('dados ' + dados);
+    //console.log('dados ' + dados);
     //Previsão dia atual
     $.each(dados, function (dado, valor) {
         // Dados do dia corrente
@@ -215,3 +207,11 @@ let geolocalizacao = {
         };
     }
 }
+
+//
+//Botão localidade
+//
+$('#btnLocalidade').click(function () {
+    inicializar($('#localidade').val());
+    window.location.href = '#fechar';
+});
