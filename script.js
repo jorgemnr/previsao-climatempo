@@ -215,3 +215,11 @@ $('#btnLocalidade').click(function () {
     inicializar($('#localidade').val());
     window.location.href = '#fechar';
 });
+
+//
+//Fechar quando clicar fora do modal
+//
+$('#openModal').click(function () {
+    window.location.href = '#fechar';
+});
+
