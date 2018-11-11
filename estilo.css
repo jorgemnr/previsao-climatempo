@@ -172,8 +172,16 @@ section {
 }
 
 #previsao5Dias table thead tr {
-    border-bottom: white 1pt solid;
     font-size: 0.8rem;
+    line-height: 0.5rem;
+}
+
+#previsao5Dias table thead tr:first-child {
+    border-bottom: white 1pt dotted;
+}
+
+#previsao5Dias table thead tr:last-child {
+    border-bottom: white 1pt solid;
 }
 
 #previsao5Dias table tbody tr {
@@ -186,7 +194,11 @@ section {
 }
 
 #previsao5Dias table tbody tr td {
-    padding: 0.5rem 1vw;
+    padding: 0.5rem 1vw 0 1vw;
+}
+
+#previsao5Dias table tbody tr td:nth-child(2) {
+    max-width: 10rem;
 }
 
 .icon-day {

@@ -79,7 +79,8 @@ function fncPreencherPaginaMomento(dados) {
 //Preencher os elementos HTML da página utilizando o JSON de retorno do WebService
 //
 function fncPreencherPagina15Dias(dados) {
-    let data, manha, tarde, noite, chuva, temperatura;
+    let semana = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+    let diaInteiro, chuva, temperatura;
     //console.log('dados ' + dados);
     //Previsão dia atual
     $.each(dados, function (dado, valor) {
@@ -135,30 +136,33 @@ function fncPreencherPagina15Dias(dados) {
                     $.each(dados.data[i], function (dado, valor) {
                         //Data
                         if (dado == 'date_br') {
-                            data = '<td><p>' + valor.substr(0, 5) + '</p></td>'
+                            let arr = valor.split("/").reverse();
+                            //Ano, Mês, Dia, Hora, Minuto, Segundo
+                            //meses em JavaScript começam em 0. Ou seja janeiro é o mês 0
+                            let dt = new Date(arr[0], arr[1] - 1, arr[2]);
+                            data = '<td><p>' + valor.substr(0, 5) + '</p>'
+                            data += '<p>' + semana[dt.getDay()] + '</p></td>'
                         }
                         //Chuva
                         else if (dado == 'rain') {
-                            chuva = '<td><p>' + valor.probability + '% / ' + valor.precipitation + 'mm' + '</p></td>'
+                            chuva = '<td><p>' + valor.probability + '%' + '</p></td>'
+                            chuva += '<td><p>' + valor.precipitation + 'mm' + '</p></td>'
                         }
                         //Temperatura
                         else if (dado == 'temperature') {
-                            temperatura = '<td><p>' + valor.min + '&deg;C / ' + valor.max + '&deg;C' + '</p></td>'
+                            temperatura = '<td><p>' + valor.min + '&deg;C' + '</p></td>'
+                            temperatura += '<td><p>' + valor.max + '&deg;C' + '</p></td>'
                         }
                         //Movimento do Dia
                         else if (dado == 'text_icon') {
                             //Icones
-                            manha = '<td><img class="icon-day" src="' + caminhoImgPeq + valor.icon.morning + '.png" alt="Imagem">\
-                                             <p>'+ valor.text.phrase.morning + '</p></td>'
-                            tarde = '<td><img class="icon-day" src="' + caminhoImgPeq + valor.icon.afternoon + '.png" alt="Imagem">\
-                                             <p>'+ valor.text.phrase.afternoon + '</p></td>'
-                            noite = '<td><img class="icon-day" src="' + caminhoImgPeq + valor.icon.night + '.png" alt="Imagem">\
-                                             <p>'+ valor.text.phrase.night + '</p></td>'
+                            diaInteiro = '<td><img class="icon-day" src="' + caminhoImgPeq + valor.icon.day + '.png" alt="Imagem">\
+                                             <p>'+ valor.text.pt + '</p></td>'
                         }
                     });
 
                     //Inserir linhas na tabela
-                    $('#tabelaPrevisao5Dias').append('<tr>' + data + manha + tarde + noite + chuva + temperatura + '</tr>');
+                    $('#tabelaPrevisao5Dias').append('<tr>' + data + diaInteiro + chuva + temperatura + '</tr>');
                 }
             }
         }
