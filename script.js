@@ -219,7 +219,8 @@ $('#btnLocalidade').click(function () {
 //
 //Fechar quando clicar fora do modal
 //
-$('#openModal').click(function () {
-    window.location.href = '#fechar';
+$('#openModal').click(function (event) {
+    if (event.target == this)
+        window.location.href = '#fechar';
 });
 
