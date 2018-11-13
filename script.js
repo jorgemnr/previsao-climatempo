@@ -140,8 +140,8 @@ function fncPreencherPagina15Dias(dados) {
                             //Ano, Mês, Dia, Hora, Minuto, Segundo
                             //meses em JavaScript começam em 0. Ou seja janeiro é o mês 0
                             let dt = new Date(arr[0], arr[1] - 1, arr[2]);
-                            data = '<td><p>' + valor.substr(0, 5) + '</p>'
-                            data += '<p>' + semana[dt.getDay()] + '</p></td>'
+                            data = '<td><p>' + semana[dt.getDay()] + '</p>'
+                            data += '<p>' + valor.substr(0, 5) + '</p></td>'
                         }
                         //Chuva
                         else if (dado == 'rain') {
