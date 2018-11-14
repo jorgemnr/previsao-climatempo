@@ -12,9 +12,62 @@ $(document).ready(inicializar(3477));
 function inicializar(localidade) {
     //obter geolocalização
     //geolocalizacao.obter();
+
+    //Chamar webservice e atualizar pagina
     WsPrevisaoMomento(localidade)
+
+    //Chamar webservice e atualizar pagina
     WsPrevisao15Dias(localidade)
 }
+
+//função para aplicar fundos background
+function aplicarFundo(chave) {
+    switch (chave) {
+        case '1':
+        case '2':
+        case '2r':
+        case '4':
+            $('body').css('background-image', "url('img/fundo/fundo_calor_dia.jpg')");
+            break;
+        case '1n':
+        case '2n':
+        case '2rn':
+            $('body').css('background-image', "url('img/fundo/fundo_calor_noite.jpg')");
+            break;
+        case '3':
+        case '4':
+        case '4r':
+        case '4t':
+        case '5':
+            $('body').css('background-image', "url('img/fundo/fundo_chuva_dia.jpg')");
+            break;
+        case '3n':
+        case '3TM':
+        case '4n':
+        case '4rn':
+        case '4tn':
+        case '5n':
+        case '6':
+        case '6n':
+            $('body').css('background-image', "url('img/fundo/fundo_chuva_noite.jpg')");
+            break;
+        case '7':
+        case '8':
+        case '9':
+            $('body').css('background-image', "url('img/fundo/fundo_frio_dia.jpg')");
+            break;
+        case '7n':
+        case '8n':
+        case '9n':
+            $('body').css('background-image', "url('img/fundo/fundo_frio_noite.jpg')");
+            break;
+        default:
+            $('body').css('background-image', "url('img/fundo/fundo.jpg')");
+            break;
+    }
+
+}
+
 //
 //WebService -> Forecast - Momento
 //
@@ -69,6 +122,9 @@ function fncPreencherPaginaMomento(dados) {
                 else if (dado1 == 'icon') {
                     //Icone do dia
                     $('#imgMomento').attr('src', caminhoImgGde + valor1 + '.png');
+                    //Imagem de fundo
+                    console.log('icone: ' + valor1)
+                    aplicarFundo(valor1)
                 }
             });
         }
