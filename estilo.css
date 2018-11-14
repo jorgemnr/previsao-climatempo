@@ -202,7 +202,12 @@ section {
 }
 
 #previsao5Dias table tbody tr td:nth-child(2) {
-    max-width: 10rem;
+    max-width: 20rem;
+    /* margin: 0; */
+}
+
+#previsao5Dias table tbody tr td:nth-child(2)>p {
+    margin: 0.3rem;
 }
 
 .icon-day {
