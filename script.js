@@ -6,18 +6,47 @@ let endpointWS15Dias = 'https://apiadvisor.climatempo.com.br/api/v1/forecast/loc
 let tokenWS = '&token=724ad8c3f15b9d400ff996a62d058433';
 
 //inicializar
-//3477 - São Paulo
-$(document).ready(inicializar(3477));
 
-function inicializar(localidade) {
+$(document).ready(inicializar());
+
+function inicializar() {
+    let vLocalidade;
     //obter geolocalização
     //geolocalizacao.obter();
 
-    //Chamar webservice e atualizar pagina
-    WsPrevisaoMomento(localidade)
+    //Pegar localidade
+    vLocalidade = obterLocalidade();
+
+    //Preencher Select localidades
+    preencheLocalidades(vLocalidade);
 
     //Chamar webservice e atualizar pagina
-    WsPrevisao15Dias(localidade)
+    WsPrevisaoMomento(vLocalidade)
+
+    //Chamar webservice e atualizar pagina
+    WsPrevisao15Dias(vLocalidade)
+}
+
+//
+//Memorizar Localidade
+//
+function memorizarLocalidade(loc) {
+    if (typeof (localStorage) !== "undefined") {
+        localStorage.localidade = loc;
+    }
+}
+
+//
+//Memorizar Localidade
+//
+function obterLocalidade() {
+    if (typeof (localStorage.localidade) != 'undefined') {
+        return localStorage.localidade;
+    }
+    else {
+        //3477 - São Paulo        
+        return 3477;
+    }
 }
 
 //função para aplicar fundos background
@@ -65,7 +94,59 @@ function aplicarFundo(chave) {
             $('body').css('background-image', "url('img/fundo/fundo.jpg')");
             break;
     }
+}
 
+//
+// Preencher Select das localidades
+//
+function preencheLocalidades(locPadrao) {
+    //let localidades = [{cod:4502, desc: 'Aracaju - SE'}];
+    let options
+    let localidades =
+        [
+            { 'cod': 4502, 'desc': 'Aracaju - SE' },
+            { 'cod': 7704, 'desc': 'Belém - PA' },
+            { 'cod': 6879, 'desc': 'Belo Horizonte - MG' },
+            { 'cod': 5775, 'desc': 'Boa Vista - RR' },
+            { 'cod': 8173, 'desc': 'Brasília - DF' },
+            { 'cod': 6760, 'desc': 'Campo Grande - MS' },
+            { 'cod': 7615, 'desc': 'Cuiabá - MT' },
+            { 'cod': 6731, 'desc': 'Curitiba - PR' },
+            { 'cod': 4915, 'desc': 'Florianópolis - SC' },
+            { 'cod': 8050, 'desc': 'Fortaleza - CE' },
+            { 'cod': 6861, 'desc': 'Goiânia - GO' },
+            { 'cod': 7364, 'desc': 'João Pessoa - PB' },
+            { 'cod': 3982, 'desc': 'Macapá - AP' },
+            { 'cod': 6809, 'desc': 'Maceió - AL' },
+            { 'cod': 7544, 'desc': 'Manaus - AM' },
+            { 'cod': 5864, 'desc': 'Natal - RN' },
+            { 'cod': 3427, 'desc': 'Palmas - TO' },
+            { 'cod': 5346, 'desc': 'Porto Alegre - RS' },
+            { 'cod': 5757, 'desc': 'Porto Velho - RO' },
+            { 'cod': 7140, 'desc': 'Recife - PE' },
+            { 'cod': 7717, 'desc': 'Rio Branco - AC' },
+            { 'cod': 5959, 'desc': 'Rio de Janeiro - RJ' },
+            { 'cod': 7564, 'desc': 'Salvador - BA' },
+            { 'cod': 6867, 'desc': 'São Luís - MA' },
+            { 'cod': 3477, 'desc': 'São Paulo - SP' },
+            { 'cod': 6951, 'desc': 'Teresina - PI' },
+            { 'cod': 8284, 'desc': 'Vitória - ES' }
+        ];
+    //Limpar select
+    $('#localidade').empty();
+
+    //criar options
+    localidades.forEach((dado) => {
+        if (dado.cod == locPadrao) {
+            options += '<option value="' + dado.cod + '" selected="selected">' + dado.desc + '</option>';
+        }
+        else {
+            options += '<option value="' + dado.cod + '">' + dado.desc + '</option>';
+        }
+    })
+    
+    //Inserir linhas
+    $('#localidade').append(options);
 }
 
 //
@@ -123,7 +204,6 @@ function fncPreencherPaginaMomento(dados) {
                     //Icone do dia
                     $('#imgMomento').attr('src', caminhoImgGde + valor1 + '.png');
                     //Imagem de fundo
-                    console.log('icone: ' + valor1)
                     aplicarFundo(valor1)
                 }
             });
@@ -225,6 +305,25 @@ function fncPreencherPagina15Dias(dados) {
     });
 }
 
+//
+//Botão localidade
+//
+$('#btnLocalidade').click(function () {
+    localStorage.localidade = $('#localidade').val();
+    //inicializar($('#localidade').val());
+    inicializar();
+    window.location.href = '#fechar';
+});
+
+//
+//Fechar quando clicar fora do modal
+//
+$('#openModal').click(function (event) {
+    if (event.target == this)
+        window.location.href = '#fechar';
+});
+
+
 //Objeto para obter geolocalizacao do browser
 let geolocalizacao = {
     erro: null,
@@ -267,20 +366,3 @@ let geolocalizacao = {
         };
     }
 }
-
-//
-//Botão localidade
-//
-$('#btnLocalidade').click(function () {
-    inicializar($('#localidade').val());
-    window.location.href = '#fechar';
-});
-
-//
-//Fechar quando clicar fora do modal
-//
-$('#openModal').click(function (event) {
-    if (event.target == this)
-        window.location.href = '#fechar';
-});
-
