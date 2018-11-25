@@ -144,7 +144,7 @@ function preencheLocalidades(locPadrao) {
             options += '<option value="' + dado.cod + '">' + dado.desc + '</option>';
         }
     })
-    
+
     //Inserir linhas
     $('#localidade').append(options);
 }
@@ -161,6 +161,7 @@ function WsPrevisaoMomento(localidade) {
         },
         error: function (xhr, status, error) {
             console.log('Ocorreu um erro ao obter previsão Momento!')
+            fncErro('Ocorreu um erro ao obter previsão Momento: ' + error)
         }
     });
 }
@@ -177,6 +178,7 @@ function WsPrevisao15Dias(localidade) {
         },
         error: function (xhr, status, error) {
             console.log('Ocorreu um erro ao obter previsão 15 dias!')
+            fncErro('Ocorreu um erro ao obter previsão 15 dias: ' + error)
         }
     });
 }
@@ -187,28 +189,32 @@ function WsPrevisao15Dias(localidade) {
 function fncPreencherPaginaMomento(dados) {
     //console.log('dados ' + dados);
     //Previsão dia atual
-    $.each(dados, function (dado, valor) {
-        if (dado !== 'data') {
-            //Cidade / Estado 
-            $('#' + dado).text(valor);
-        }
-        else {
-            $.each(dados.data, function (dado1, valor1) {
-                if (dado1 == 'temperature') {
-                    $('#temperatureMomento').html(valor1 + '&deg;');
-                }
-                else if (dado1 == 'date') {
-                    $('#' + dado1).text('Atualizado às ' + valor1.substr(11, 5));
-                }
-                else if (dado1 == 'icon') {
-                    //Icone do dia
-                    $('#imgMomento').attr('src', caminhoImgGde + valor1 + '.png');
-                    //Imagem de fundo
-                    aplicarFundo(valor1)
-                }
-            });
-        }
-    });
+    try {
+        $.each(dados, function (dado, valor) {
+            if (dado !== 'data') {
+                //Cidade / Estado 
+                $('#' + dado).text(valor);
+            }
+            else {
+                $.each(dados.data, function (dado1, valor1) {
+                    if (dado1 == 'temperature') {
+                        $('#temperatureMomento').html(valor1 + '&deg;');
+                    }
+                    else if (dado1 == 'date') {
+                        $('#' + dado1).text('Atualizado às ' + valor1.substr(11, 5));
+                    }
+                    else if (dado1 == 'icon') {
+                        //Icone do dia
+                        $('#imgMomento').attr('src', caminhoImgGde + valor1 + '.png');
+                        //Imagem de fundo
+                        aplicarFundo(valor1)
+                    }
+                });
+            }
+        });
+    } catch (error) {
+        fncErro('Ocorreu erro preencher pagina Momento: ' + error)
+    }
 }
 //
 //Previsão 15 Dias
@@ -219,90 +225,93 @@ function fncPreencherPagina15Dias(dados) {
     let diaInteiro, chuva, temperatura;
     //console.log('dados ' + dados);
     //Previsão dia atual
-    $.each(dados, function (dado, valor) {
-        // Dados do dia corrente
-        if (dado == 'data') {
-            //console.log(dado)
-            for (let i = 0; i < 6; i++) {
-                //dados dia atual
-                if (i == 0) {
-                    //Limpar tabela Previsão 5 Dias
-                    $('#tabelaPrevisao5Dias').empty();
-                    //
-                    $.each(dados.data[i], function (dado1, valor1) {
-                        //console.log('dados: ' + dado1)
-                        //console.log('valor: ' + valor1)
-                        //Data do dia attual
-                        if (dado1 == 'date_br') {
-                            $('#' + dado1).text(valor1);
-                        }
-                        //Chuva
-                        else if (dado1 == 'rain') {
-                            $('#' + dado1 + 'Momento').text(valor1.probability + '% / ' + valor1.precipitation + 'mm');
-                        }
-                        /*
-                        //Sensação
-                        else if (dado1 == 'thermal_sensation') {
-                            $('#sensation').html(valor1.min + '&deg;C / ' + valor1.max + '&deg;C');
-                        }
-                        */
-                        //Temperatura
-                        else if (dado1 == 'temperature') {
-                            $('#' + dado1 + 'MinMax').html(valor1.min + '&deg;C / ' + valor1.max + '&deg;C');
-                        }
-                        //Movimento do Dia
-                        else if (dado1 == 'text_icon') {
-                            //Icones
-                            $('#imgMomentoMadrugada').attr('src', caminhoImgPeq + valor1.icon.dawn + '.png');
-                            $('#imgMomentoManha').attr('src', caminhoImgPeq + valor1.icon.morning + '.png');
-                            $('#imgMomentoTarde').attr('src', caminhoImgPeq + valor1.icon.afternoon + '.png');
-                            $('#imgMomentoNoite').attr('src', caminhoImgPeq + valor1.icon.night + '.png');
-                            //Frases
-                            $('#phrase-dawn').text(valor1.text.phrase.dawn);
-                            $('#phrase-morning').text(valor1.text.phrase.morning);
-                            $('#phrase-afternoon').text(valor1.text.phrase.afternoon);
-                            $('#phrase-night').text(valor1.text.phrase.night);
-                            //Frase completa
-                            $('#phrase-reduced').text(valor1.text.phrase.reduced);
-                        }
-                    });
-                }
-                else {
-                    //Dados previsão 5 dias
-                    $.each(dados.data[i], function (dado, valor) {
-                        //Data
-                        if (dado == 'date_br') {
-                            let arr = valor.split("/").reverse();
-                            //Ano, Mês, Dia, Hora, Minuto, Segundo
-                            //meses em JavaScript começam em 0. Ou seja janeiro é o mês 0
-                            let dt = new Date(arr[0], arr[1] - 1, arr[2]);
-                            data = '<td><p>' + semana[dt.getDay()] + '</p>'
-                            data += '<p>' + valor.substr(0, 5) + '</p></td>'
-                        }
-                        //Chuva
-                        else if (dado == 'rain') {
-                            chuva = '<td><p>' + valor.probability + '%' + '</p></td>'
-                            chuva += '<td><p>' + valor.precipitation + 'mm' + '</p></td>'
-                        }
-                        //Temperatura
-                        else if (dado == 'temperature') {
-                            temperatura = '<td><p>' + valor.min + '&deg;C' + '</p></td>'
-                            temperatura += '<td><p>' + valor.max + '&deg;C' + '</p></td>'
-                        }
-                        //Movimento do Dia
-                        else if (dado == 'text_icon') {
-                            //Icones
-                            diaInteiro = '<td><img class="icon-day" src="' + caminhoImgPeq + valor.icon.day + '.png" alt="Imagem">\
+    try {
+        $.each(dados, function (dado, valor) {
+            // Dados do dia corrente
+            if (dado == 'data') {
+                //console.log(dado)
+                for (let i = 0; i < 6; i++) {
+                    //dados dia atual
+                    if (i == 0) {
+                        //Limpar tabela Previsão 5 Dias
+                        $('#tabelaPrevisao5Dias').empty();
+                        //
+                        $.each(dados.data[i], function (dado1, valor1) {
+                            //console.log('dados: ' + dado1)
+                            //console.log('valor: ' + valor1)
+                            //Data do dia attual
+                            if (dado1 == 'date_br') {
+                                $('#' + dado1).text(valor1);
+                            }
+                            //Chuva
+                            else if (dado1 == 'rain') {
+                                $('#' + dado1 + 'Momento').text(valor1.probability + '% / ' + valor1.precipitation + 'mm');
+                            }
+                            /*
+                            //Sensação
+                            else if (dado1 == 'thermal_sensation') {
+                                $('#sensation').html(valor1.min + '&deg;C / ' + valor1.max + '&deg;C');
+                            }
+                            */
+                            //Temperatura
+                            else if (dado1 == 'temperature') {
+                                $('#' + dado1 + 'MinMax').html(valor1.min + '&deg;C / ' + valor1.max + '&deg;C');
+                            }
+                            //Movimento do Dia
+                            else if (dado1 == 'text_icon') {
+                                //Icones
+                                $('#imgMomentoMadrugada').attr('src', caminhoImgPeq + valor1.icon.dawn + '.png');
+                                $('#imgMomentoManha').attr('src', caminhoImgPeq + valor1.icon.morning + '.png');
+                                $('#imgMomentoTarde').attr('src', caminhoImgPeq + valor1.icon.afternoon + '.png');
+                                $('#imgMomentoNoite').attr('src', caminhoImgPeq + valor1.icon.night + '.png');
+                                //Frases
+                                $('#phrase-dawn').text(valor1.text.phrase.dawn);
+                                $('#phrase-morning').text(valor1.text.phrase.morning);
+                                $('#phrase-afternoon').text(valor1.text.phrase.afternoon);
+                                $('#phrase-night').text(valor1.text.phrase.night);
+                                //Frase completa
+                                $('#phrase-reduced').text(valor1.text.phrase.reduced);
+                            }
+                        });
+                    }
+                    else {
+                        //Dados previsão 5 dias
+                        $.each(dados.data[i], function (dado, valor) {
+                            //Data
+                            if (dado == 'date_br') {
+                                let arr = valor.split("/").reverse();
+                                //Ano, Mês, Dia, Hora, Minuto, Segundo
+                                //meses em JavaScript começam em 0. Ou seja janeiro é o mês 0
+                                let dt = new Date(arr[0], arr[1] - 1, arr[2]);
+                                data = '<td><p>' + semana[dt.getDay()] + '</p>'
+                                data += '<p>' + valor.substr(0, 5) + '</p></td>'
+                            }
+                            //Chuva
+                            else if (dado == 'rain') {
+                                chuva = '<td><p>' + valor.probability + '%' + '</p></td>'
+                                chuva += '<td><p>' + valor.precipitation + 'mm' + '</p></td>'
+                            }
+                            //Temperatura
+                            else if (dado == 'temperature') {
+                                temperatura = '<td><p>' + valor.min + '&deg;C' + '</p></td>'
+                                temperatura += '<td><p>' + valor.max + '&deg;C' + '</p></td>'
+                            }
+                            //Movimento do Dia
+                            else if (dado == 'text_icon') {
+                                //Icones
+                                diaInteiro = '<td><img class="icon-day" src="' + caminhoImgPeq + valor.icon.day + '.png" alt="Imagem">\
                                              <p>'+ valor.text.pt + '</p></td>'
-                        }
-                    });
-
-                    //Inserir linhas na tabela
-                    $('#tabelaPrevisao5Dias').append('<tr>' + data + diaInteiro + chuva + temperatura + '</tr>');
+                            }
+                        });
+                        //Inserir linhas na tabela
+                        $('#tabelaPrevisao5Dias').append('<tr>' + data + diaInteiro + chuva + temperatura + '</tr>');
+                    }
                 }
             }
-        }
-    });
+        });
+    } catch (error) {
+        fncErro('Ocorreu erro preencher pagina 5 Dias: ' + error)
+    }
 }
 
 //
@@ -310,7 +319,6 @@ function fncPreencherPagina15Dias(dados) {
 //
 $('#btnLocalidade').click(function () {
     localStorage.localidade = $('#localidade').val();
-    //inicializar($('#localidade').val());
     inicializar();
     window.location.href = '#fechar';
 });
@@ -323,6 +331,13 @@ $('#openModal').click(function (event) {
         window.location.href = '#fechar';
 });
 
+//
+//Função para mostar erro na tela
+//
+function fncErro(erro) {
+    $("#erro>p").text(erro);
+    $("#erro").show();
+}
 
 //Objeto para obter geolocalizacao do browser
 let geolocalizacao = {

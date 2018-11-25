@@ -13,6 +13,24 @@ section {
 }
 
 /*#####################
+ Erro
+#######################*/
+
+#erro {
+    display: none;
+    background: white;
+}
+
+#erro>p {
+    border: black 2pt solid;
+    text-shadow: 0px 1px 0px red;
+    text-align: center;
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+    margin: 1rem auto;
+}
+
+/*#####################
  Painel principal
 #######################*/
 
@@ -176,7 +194,15 @@ section {
     line-height: 0.5rem;
 }
 
-#previsao5Dias table thead tr:first-child {
+/* #previsao5Dias table thead tr:first-child {
+    border-bottom: white 1pt dotted;
+} */
+
+/* #previsao5Dias table thead tr th:last-child {
+    border-bottom: white 1pt solid;
+} */
+
+#previsao5Dias table thead tr:first-child>th {
     border-bottom: white 1pt dotted;
 }
 
