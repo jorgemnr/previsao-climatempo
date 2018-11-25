@@ -202,9 +202,9 @@ section {
     border-bottom: white 1pt solid;
 } */
 
-#previsao5Dias table thead tr:first-child>th {
+/* #previsao5Dias table thead tr:first-child>th {
     border-bottom: white 1pt dotted;
-}
+} */
 
 #previsao5Dias table thead tr:last-child {
     border-bottom: white 1pt solid;
